@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, -100]);
   const rotate = useTransform(scrollY, [0, 1000], [0, 45]);
+  const { t, isRTL } = useLanguage();
 
   return (
     <section ref={containerRef} className="relative pt-32 pb-24 overflow-hidden min-h-[90vh] flex items-center">
@@ -25,35 +27,60 @@ export default function Hero() {
       </div>
 
       <div className="container mx-auto px-8 md:px-16 lg:px-24 grid grid-cols-1 md:grid-cols-2 items-center gap-16 relative z-10">
-        <div className="text-center md:text-right space-y-10 w-full">
-          {/* Heading - Bold and Large */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight arabic-heading text-primary">
-            نُرسّخ حفظ القرآن الكريم <span className="text-accent">جيلاً بعد جيل</span>
+        {/* Text side */}
+        <div className={`text-center ${isRTL ? "md:text-right" : "md:text-left"} space-y-10 w-full`}>
+          {/* Heading – same size range for all languages */}
+          <h1
+            className={`font-bold leading-tight text-primary
+              ${isRTL
+                ? "text-5xl md:text-7xl lg:text-8xl arabic-heading"
+                : "text-4xl md:text-6xl lg:text-7xl font-latin"
+              }`}
+          >
+            {t("hero_title")}
           </h1>
 
-          {/* Paragraph - Static */}
-          <p className="text-xl md:text-3xl text-muted-foreground arabic-body max-w-2xl leading-relaxed">
-            معهد متخصص في تحفيظ القرآن الكريم وعلوم التجويد، نسعى لبناء جيل قرآني متميز يجمع بين الحفظ والتربية والعمل.
+          {/* Subtitle */}
+          <p
+            className={`text-muted-foreground max-w-2xl leading-relaxed indent-4
+              ${isRTL
+                ? "text-xl md:text-3xl arabic-body"
+                : "text-lg md:text-2xl font-latin"
+              }`}
+          >
+            {t("hero_subtitle")}
           </p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-wrap justify-center md:justify-start gap-6 pt-4"
+            initial={{ opacity: 0, x: isRTL ? 50 : -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className={`flex flex-wrap justify-center ${isRTL ? "md:justify-start" : "md:justify-start"} gap-6 pt-10`}
           >
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-10 py-8 text-2xl rounded-2xl shadow-2xl shadow-primary/30 transition-transform hover:scale-105 active:scale-95">
-              اكتشف برامجنا
+            <Button
+              size="lg"
+              onClick={() => document.getElementById('programs')?.scrollIntoView({ behavior: 'smooth' })}
+              className={`bg-primary text-primary-foreground hover:bg-primary/90 px-10 py-8 rounded-2xl shadow-2xl shadow-primary/30 transition-transform hover:scale-105 active:scale-95
+                ${isRTL ? "text-2xl arabic-body" : "text-xl font-latin"}`}
+            >
+              {t("hero_discover")}
             </Button>
-            <Button size="lg" variant="outline" className="border-accent text-accent hover:bg-accent/10 px-10 py-8 text-2xl rounded-2xl transition-transform hover:scale-105 active:scale-95">
-              تواصل معنا
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' })}
+              className={`border-primary text-primary hover:bg-primary/5 px-10 py-8 rounded-2xl transition-transform hover:scale-105 active:scale-95
+                ${isRTL ? "text-2xl arabic-body" : "text-xl font-latin"}`}
+            >
+              {t("hero_contact")}
             </Button>
           </motion.div>
         </div>
 
+        {/* Image side – identical markup / styling for all languages */}
         <motion.div
           style={{ y: y1 }}
-          className="relative quran-3d-container hidden md:block -mt-12 md:-mt-24"
+          className={`relative quran-3d-container hidden md:block ${isRTL ? "-mt-12 md:-mt-24" : "-mt-20 md:-mt-40"}`}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -80,7 +107,7 @@ export default function Hero() {
                 className="w-full h-auto object-cover"
               />
             </div>
-            {/* 3D Depth effect layers */}
+            {/* 3D depth layers */}
             <div className="absolute inset-0 bg-primary/20 rounded-[2rem] -translate-z-4 blur-xl opacity-50 pointer-events-none" />
             <div className="absolute inset-0 bg-accent/20 rounded-[2rem] -translate-z-10 blur-2xl opacity-30 pointer-events-none" />
           </motion.div>

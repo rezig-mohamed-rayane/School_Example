@@ -2,9 +2,11 @@ import React, { useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Mic2, Star, Users } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 function TiltCard({ program, index }: { program: any; index: number; key?: React.Key }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const { isRTL } = useLanguage();
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -52,11 +54,11 @@ function TiltCard({ program, index }: { program: any; index: number; key?: React
         }}
         className="h-full"
       >
-        <Card className="border-none shadow-xl hover:shadow-[0_20px_50px_rgba(201,168,76,0.2)] transition-shadow bg-background h-full group preserve-3d">
+        <Card className="border-0.5 shadow-xl hover:shadow-[0_20px_50px_rgba(93,64,55,0.2)] transition-shadow bg-background h-full group preserve-3d">
           <CardHeader className="pt-8 pb-4 preserve-3d">
             <motion.div
               style={{ translateZ: "50px" }}
-              className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6 mx-auto md:mx-0 transition-transform group-hover:scale-110"
+              className="w-16 h-16 border-0.5 border-accent/20 bg-accent/10 rounded-2xl flex items-center justify-center mb-6 mx-auto md:mx-0 transition-transform group-hover:scale-110"
             >
               <div className="group-hover:animate-bounce">
                 {program.icon}
@@ -64,15 +66,25 @@ function TiltCard({ program, index }: { program: any; index: number; key?: React
             </motion.div>
             <CardTitle
               style={{ translateZ: "40px" }}
-              className="text-2xl font-bold arabic-heading text-primary text-center md:text-right"
+              className="flex justify-center md:justify-start"
             >
-              {program.title}
+              <h3 className={`font-bold text-primary min-h-[4rem] flex items-center
+                ${isRTL
+                  ? "text-2xl arabic-heading text-center md:text-right md:justify-end"
+                  : "text-2xl font-latin text-center md:text-left md:justify-start"
+                }`}>
+                {program.title}
+              </h3>
             </CardTitle>
           </CardHeader>
           <CardContent className="preserve-3d">
             <p
               style={{ translateZ: "30px" }}
-              className="text-muted-foreground arabic-body leading-relaxed text-center md:text-right text-lg"
+              className={`text-muted-foreground leading-relaxed text-center indent-4
+                ${isRTL
+                  ? "text-lg arabic-body md:text-right"
+                  : "text-lg font-latin md:text-left"
+                }`}
             >
               {program.description}
             </p>
@@ -84,40 +96,34 @@ function TiltCard({ program, index }: { program: any; index: number; key?: React
 }
 
 export default function Programs() {
+  const { t, isRTL } = useLanguage();
   const programs = [
     {
-      title: "حفظ القرآن الكريم",
-      description: "برنامج مكثف للحفظ والمراجعة مع نخبة من القراء، متاح لمختلف الفئات العمرية.",
+      title: t("program_hifz_title"),
+      description: t("program_hifz_desc"),
       icon: <BookOpen className="w-10 h-10 text-accent" />,
     },
     {
-      title: "التجويد والتلاوة",
-      description: "دروس نظرية وتطبيقية في أحكام التجويد لتحسين الأداء الصوتي وإتقان التلاوة.",
+      title: t("program_tajweed_title"),
+      description: t("program_tajweed_desc"),
       icon: <Mic2 className="w-10 h-10 text-accent" />,
     },
     {
-      title: "التربية الإسلامية",
-      description: "تعزيز القيم والأخلاق الإسلامية وتدريس الفقه والسيرة النبوية بأسلوب ميسر.",
+      title: t("program_islamic_title"),
+      description: t("program_islamic_desc"),
       icon: <Star className="w-10 h-10 text-accent" />,
     },
     {
-      title: "برنامج الأطفال",
-      description: "منهج خاص للأطفال يجمع بين الحفظ واللعب والتربية في بيئة محببة.",
+      title: t("program_kids_title"),
+      description: t("program_kids_desc"),
       icon: <Users className="w-10 h-10 text-accent" />,
     },
   ];
 
   return (
-    <section id="programs" className="py-32 bg-muted/30 relative overflow-hidden">
-      {/* Decorative Zakhrafa */}
-      <div className="absolute top-0 left-0 w-full h-64 opacity-10 pointer-events-none overflow-hidden">
-        <img 
-          src="/images/zakhrafa4.jfif" 
-          alt="" 
-          className="w-full h-full object-cover transform -rotate-180" 
-        />
-      </div>
-      
+    <section id="programs" className="py-32 bg-background relative overflow-hidden">
+
+
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -126,9 +132,25 @@ export default function Programs() {
           viewport={{ once: true }}
           className="text-center space-y-6 mb-20"
         >
-          <h2 className="text-4xl md:text-6xl font-bold arabic-heading text-primary">برامجنا التعليمية</h2>
+          <h2
+            className={`font-bold text-primary
+              ${isRTL
+                ? "text-4xl md:text-6xl arabic-heading"
+                : "text-4xl md:text-6xl font-latin"
+              }`}
+          >
+            {t("programs_title")}
+          </h2>
           <div className="w-24 h-1.5 bg-accent mx-auto rounded-full" />
-          <p className="text-xl md:text-2xl text-muted-foreground arabic-body max-w-3xl mx-auto">نقدم مجموعة متنوعة من البرامج المصممة لتناسب احتياجات جميع رواد المعهد.</p>
+          <p
+            className={`text-muted-foreground max-w-3xl mx-auto
+              ${isRTL
+                ? "text-xl md:text-2xl arabic-body"
+                : "text-lg md:text-2xl font-latin"
+              }`}
+          >
+            {t("programs_subtitle")}
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
