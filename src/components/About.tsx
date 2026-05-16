@@ -47,7 +47,7 @@ export default function About() {
         <div className="flex-1">
           <div className="aspect-video rounded-3xl overflow-hidden shadow-xl border border-border">
             <img
-              src="/images/halqa.jpg"
+              src="/images/grouprecitationQuran1.jpg"
               alt="Halqa"
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
