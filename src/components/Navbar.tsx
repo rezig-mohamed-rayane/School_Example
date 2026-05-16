@@ -24,10 +24,10 @@ export default function Navbar() {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "glass-nav-scrolled py-2" : "glass-nav py-4"}`}>
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-2">
 
         {/* Logo */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <div className="w-10 h-10 bg-primary flex items-center justify-center rounded-lg">
             <span className="text-primary-foreground font-bold text-xl">{isRTL ? "ف" : "F"}</span>
           </div>
@@ -36,7 +36,7 @@ export default function Navbar() {
           </span>
         </div>
 
-        {/* Nav links */}
+        {/* Nav links – desktop only */}
         <div className={`hidden md:flex items-center gap-8 px-6 py-2 bg-muted/30 rounded-full ${isRTL ? "text-lg arabic-body" : "text-base font-latin"}`}>
           <a href="#" className="font-medium hover:text-accent transition-colors">{t("nav_home")}</a>
           <a href="#about" className="font-medium hover:text-accent transition-colors">{t("nav_about")}</a>
@@ -45,13 +45,13 @@ export default function Navbar() {
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1 md:gap-4 shrink-0">
 
           {/* Language picker */}
-          <div className="w-32">
+          <div className="w-28 sm:w-32">
             <Select value={language} onValueChange={(val: any) => setLanguage(val)}>
-              <SelectTrigger className={`bg-transparent border-none focus:ring-0 gap-2 ${language !== 'ar' ? 'font-latin' : ''}`}>
-                <Globe className="w-4 h-4" />
+              <SelectTrigger className={`bg-transparent border-none focus:ring-0 gap-1 md:gap-2 text-xs sm:text-sm md:text-base px-1 md:px-3 ${language !== 'ar' ? 'font-latin' : ''}`}>
+                <Globe className="w-3 h-3 sm:w-4 sm:h-4" />
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -64,7 +64,7 @@ export default function Navbar() {
 
           <Button 
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className={`bg-accent hover:bg-accent/90 text-accent-foreground font-bold rounded-full px-6 shadow-lg shadow-accent/20 ${isRTL ? "text-lg arabic-body" : "text-base font-latin"}`}
+            className={`bg-accent hover:bg-accent/90 text-accent-foreground font-bold rounded-full px-3 py-1.5 md:px-6 md:py-2 shadow-lg shadow-accent/20 text-xs sm:text-sm md:text-base whitespace-nowrap ${isRTL ? "arabic-body" : "font-latin"}`}
           >
             {t("nav_register")}
           </Button>

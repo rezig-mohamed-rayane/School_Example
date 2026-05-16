@@ -26,7 +26,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="container mx-auto px-8 md:px-16 lg:px-24 grid grid-cols-1 md:grid-cols-2 items-center gap-16 relative z-10">
+      <div className="container mx-auto px-8 md:px-16 lg:px-24 grid grid-cols-1 md:grid-cols-2 items-center gap-10 md:gap-16 relative z-10">
         {/* Text side */}
         <div className={`text-center ${isRTL ? "md:text-right" : "md:text-left"} space-y-10 w-full`}>
           {/* Heading – same size range for all languages */}
@@ -80,7 +80,7 @@ export default function Hero() {
         {/* Image side – identical markup / styling for all languages */}
         <motion.div
           style={{ y: y1 }}
-          className={`relative quran-3d-container hidden md:block ${isRTL ? "-mt-12 md:-mt-24" : "-mt-20 md:-mt-40"}`}
+          className="relative quran-3d-container block -mt-4 md:-mt-24"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
