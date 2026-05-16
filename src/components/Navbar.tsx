@@ -24,7 +24,7 @@ export default function Navbar() {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "glass-nav-scrolled py-2" : "glass-nav py-4"}`}>
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-2">
+      <div className="container mx-auto px-3 md:px-4 h-16 flex items-center justify-between gap-3 md:gap-2">
 
         {/* Logo */}
         <div className="flex items-center gap-2 shrink-0">
@@ -45,7 +45,7 @@ export default function Navbar() {
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-1 md:gap-4 shrink-0">
+        <div className="flex items-center gap-2 md:gap-4 shrink-0">
 
           {/* Language picker */}
           <div className="w-28 sm:w-32">

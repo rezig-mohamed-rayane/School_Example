@@ -51,11 +51,12 @@ export default function Hero() {
             {t("hero_subtitle")}
           </p>
 
+          {/* Buttons – desktop only (hidden on mobile, shown after image instead) */}
           <motion.div
             initial={{ opacity: 0, x: isRTL ? 50 : -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className={`flex flex-wrap justify-center ${isRTL ? "md:justify-start" : "md:justify-start"} gap-6 pt-10`}
+            className={`hidden md:flex flex-wrap justify-center ${isRTL ? "md:justify-start" : "md:justify-start"} gap-6 pt-10`}
           >
             <Button
               size="lg"
@@ -80,7 +81,7 @@ export default function Hero() {
         {/* Image side – identical markup / styling for all languages */}
         <motion.div
           style={{ y: y1 }}
-          className="relative quran-3d-container block -mt-4 md:-mt-24"
+          className="relative quran-3d-container block mt-6 md:-mt-24"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -111,6 +112,32 @@ export default function Hero() {
             <div className="absolute inset-0 bg-primary/20 rounded-[2rem] -translate-z-4 blur-xl opacity-50 pointer-events-none" />
             <div className="absolute inset-0 bg-accent/20 rounded-[2rem] -translate-z-10 blur-2xl opacity-30 pointer-events-none" />
           </motion.div>
+        </motion.div>
+
+        {/* Buttons – mobile only, shown below the image */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className={`flex md:hidden flex-wrap justify-center gap-6`}
+        >
+          <Button
+            size="lg"
+            onClick={() => document.getElementById('programs')?.scrollIntoView({ behavior: 'smooth' })}
+            className={`bg-primary text-primary-foreground hover:bg-primary/90 px-10 py-8 rounded-2xl shadow-2xl shadow-primary/30 transition-transform hover:scale-105 active:scale-95
+              ${isRTL ? "text-2xl arabic-body" : "text-xl font-latin"}`}
+          >
+            {t("hero_discover")}
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={() => document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' })}
+            className={`border-primary text-primary hover:bg-primary/5 px-10 py-8 rounded-2xl transition-transform hover:scale-105 active:scale-95
+              ${isRTL ? "text-2xl arabic-body" : "text-xl font-latin"}`}
+          >
+            {t("hero_contact")}
+          </Button>
         </motion.div>
       </div>
     </section>
